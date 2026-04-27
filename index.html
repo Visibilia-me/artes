@@ -49,6 +49,7 @@
             padding: 0 40px;
         }
 
+        /* Spaziatura standard per tutte le sezioni - "Respiro" da galleria */
         section {
             padding: 120px 0;
             opacity: 0;
@@ -254,6 +255,11 @@
         }
 
         /* --- Commissions --- */
+        #commissions {
+            /* Ripristinato il padding standard per separare dalle altre sezioni */
+            padding: 120px 0;
+        }
+
         .commissions-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -290,7 +296,7 @@
         footer {
             background-color: var(--deep-black);
             color: var(--bg-color);
-            padding: 80px 0 40px 0;
+            padding: 120px 0 40px 0; /* Spazio generoso prima del contenuto del footer */
         }
 
         .footer-grid {
@@ -406,8 +412,7 @@
     <section id="about" class="container">
         <div class="bio-grid grid">
             <div class="bio-image">
-                <!-- Placeholder per immagine dell'artista al lavoro -->
-                <img src="foto1.jpg" alt="Valentina Scattolin al lavoro con l'argilla">
+                <img src="https://images.unsplash.com/photo-1565191999001-551c187427bb?q=80&w=1000&auto=format&fit=crop" alt="Valentina Scattolin al lavoro con l'argilla">
             </div>
             <div class="bio-text">
                 <p class="serif" style="color: var(--clay-brown); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 10px;">L'artista</p>
@@ -426,46 +431,29 @@
             <h2>Le Opere</h2>
         </div>
         <div class="gallery-grid grid">
-            <!-- 10 placeholders for artworks -->
             <div class="gallery-item">
-                <img src="foto2.jpg" alt="Scultura 1">
+                <img src="https://images.unsplash.com/photo-1554188248-986adbb73be4?q=80&w=600&auto=format&fit=crop" alt="Scultura 1">
                 <div class="overlay">Opera I - Dettagli su richiesta</div>
             </div>
             <div class="gallery-item">
-                <img src="foto3.jpg" alt="Scultura 2">
+                <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=600&auto=format&fit=crop" alt="Scultura 2">
                 <div class="overlay">Opera II - Dettagli su richiesta</div>
             </div>
             <div class="gallery-item">
-                <img src="foto4.jpg" alt="Scultura 3">
+                <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=600&auto=format&fit=crop" alt="Scultura 3">
                 <div class="overlay">Opera III - Dettagli su richiesta</div>
             </div>
             <div class="gallery-item">
-                <img src="foto5.jpg" alt="Scultura 4">
+                <img src="https://images.unsplash.com/photo-1614728263952-84ea206f99b6?q=80&w=600&auto=format&fit=crop" alt="Scultura 4">
                 <div class="overlay">Opera IV</div>
             </div>
             <div class="gallery-item">
-                <img src="foto6.jpg" alt="Scultura 5">
+                <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop" alt="Scultura 5">
                 <div class="overlay">Opera V</div>
             </div>
             <div class="gallery-item">
-                <img src="foto7.jpg" alt="Scultura 6">
+                <img src="https://images.unsplash.com/photo-1610631882961-4bf366c9c1d4?q=80&w=600&auto=format&fit=crop" alt="Scultura 6">
                 <div class="overlay">Opera VI</div>
-            </div>
-            <div class="gallery-item">
-                <img src="foto8.jpg" alt="Scultura 7">
-                <div class="overlay">Opera VII</div>
-            </div>
-            <div class="gallery-item">
-                <img src="foto9.jpg" alt="Scultura 8">
-                <div class="overlay">Opera VIII</div>
-            </div>
-            <div class="gallery-item">
-                <img src="foto10.jpg" alt="Scultura 9">
-                <div class="overlay">Opera IX</div>
-            </div>
-            <div class="gallery-item">
-                <img src="foto11.jpg" alt="Scultura 10">
-                <div class="overlay">Opera X</div>
             </div>
         </div>
     </section>
@@ -492,18 +480,18 @@
             <div>
                 <form id="contact-form" onsubmit="handleForm(event)">
                     <div class="form-group">
-                        <label>Nome</label>
+                        <label>NOME</label>
                         <input type="text" required placeholder="Il tuo nome">
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
+                        <label>EMAIL</label>
                         <input type="email" required placeholder="la-tua@email.com">
                     </div>
                     <div class="form-group">
-                        <label>Messaggio</label>
+                        <label>MESSAGGIO</label>
                         <textarea rows="5" required placeholder="Come posso aiutarti?"></textarea>
                     </div>
-                    <button type="submit" class="btn">Invia richiesta</button>
+                    <button type="submit" class="btn" style="width: 100%;">INVIA RICHIESTA</button>
                     <div id="form-message">Grazie. Il tuo messaggio è stato inviato correttamente. Ti risponderò al più presto.</div>
                 </form>
             </div>
@@ -537,11 +525,7 @@
     </footer>
 
     <script>
-        // Reveal sections on scroll
-        const observerOptions = {
-            threshold: 0.1
-        };
-
+        const observerOptions = { threshold: 0.1 };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -554,25 +538,19 @@
             observer.observe(section);
         });
 
-        // Form Handling
         function handleForm(e) {
             e.preventDefault();
             const form = e.target;
             const message = document.getElementById('form-message');
-            
-            // Simula invio
             form.querySelector('button').innerText = 'Inviando...';
-            
             setTimeout(() => {
                 form.style.display = 'none';
                 message.style.display = 'block';
             }, 1500);
         }
 
-        // Cookie Banner
         function closeCookie() {
-            const banner = document.getElementById('cookie-banner');
-            banner.style.display = 'none';
+            document.getElementById('cookie-banner').style.display = 'none';
             localStorage.setItem('cookiesAccepted', 'true');
         }
 
@@ -582,7 +560,6 @@
             }
         };
 
-        // Header Background on Scroll
         window.onscroll = function() {
             const nav = document.querySelector('nav');
             if (window.scrollY > 50) {
