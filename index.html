@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentina Scattolin | Scultura in Argilla</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FAF7F2;
+            --beige-warm: #E8DDD0;
+            --clay-brown: #8B6355;
+            --deep-black: #1A1A1A;
+            --text-gray: #4A4A4A;
+            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--deep-black);
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .serif {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            line-height: 1.1;
+        }
+
+        /* --- Layout & Utilities --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        section {
+            padding: 120px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .flex { display: flex; }
+        .grid { display: grid; }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            border: 1px solid var(--deep-black);
+            color: var(--deep-black);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .btn:hover {
+            background-color: var(--deep-black);
+            color: var(--bg-color);
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 40px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, var(--bg-color) 0%, transparent 100%);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            text-decoration: none;
+            color: var(--deep-black);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--deep-black);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--clay-brown);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* --- Hero --- */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0;
+            opacity: 1;
+            transform: none;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--clay-brown);
+            margin-bottom: 40px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* --- Bio --- */
+        .bio-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .bio-image {
+            width: 100%;
+            height: 600px;
+            background-color: var(--beige-warm);
+            overflow: hidden;
+        }
+
+        .bio-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%);
+        }
+
+        .bio-text h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+
+        .bio-text p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+
+        /* --- Gallery --- */
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .gallery-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .gallery-item {
+            aspect-ratio: 4/5;
+            background-color: var(--beige-warm);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.4));
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+
+        /* --- Method --- */
+        #method {
+            background-color: var(--beige-warm);
+        }
+
+        .method-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .method-content h2 {
+            font-size: 3rem;
+            margin-bottom: 40px;
+        }
+
+        /* --- Commissions --- */
+        .commissions-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            background-color: transparent;
+            border: 1px solid rgba(0,0,0,0.1);
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--clay-brown);
+        }
+
+        /* --- Footer & Contacts --- */
+        footer {
+            background-color: var(--deep-black);
+            color: var(--bg-color);
+            padding: 80px 0 40px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-link {
+            color: var(--bg-color);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--clay-brown);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        /* --- Cookie Banner --- */
+        #cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            z-index: 2000;
+            border: 1px solid var(--beige-warm);
+        }
+
+        #cookie-banner p { font-size: 0.8rem; color: var(--text-gray); }
+
+        /* --- Success Message --- */
+        #form-message {
+            display: none;
+            padding: 20px;
+            background: var(--beige-warm);
+            margin-top: 20px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 900px) {
+            .bio-grid, .commissions-content, .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links { display: none; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .container { padding: 0 20px; }
+            section { padding: 80px 0; }
+        }
+
+        @media (max-width: 600px) {
+            .gallery-grid { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cookie Banner -->
+    <div id="cookie-banner">
+        <p>Utilizziamo i cookie per garantire la migliore esperienza sul nostro sito. Continuando la navigazione acconsenti al loro utilizzo.</p>
+        <button class="btn" style="padding: 10px 20px; font-size: 0.7rem;" onclick="closeCookie()">Accetto</button>
+    </div>
+
+    <nav>
+        <a href="#" class="logo">VALENTINA SCATTOLIN</a>
+        <div class="nav-links">
+            <a href="#about">Artista</a>
+            <a href="#gallery">Opere</a>
+            <a href="#method">Metodo</a>
+            <a href="#commissions">Commissioni</a>
+            <a href="#contact">Contatti</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="hero">
+        <div class="hero-content">
+            <h1>Valentina Scattolin</h1>
+            <p>Scultura in Argilla</p>
+            <a href="#gallery" class="btn">Scopri le opere</a>
+        </div>
+    </section>
+
+    <!-- Bio -->
+    <section id="about" class="container">
+        <div class="bio-grid grid">
+            <div class="bio-image">
+                <!-- Placeholder per immagine dell'artista al lavoro -->
+                <img src="foto1.jpg" alt="Valentina Scattolin al lavoro con l'argilla">
+            </div>
+            <div class="bio-text">
+                <p class="serif" style="color: var(--clay-brown); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 10px;">L'artista</p>
+                <h2>Dialogo tra mani e terra</h2>
+                <p>Basata a Treviso, Valentina Scattolin trasforma la terra in forme che parlano di fragilità e resilienza. Il suo lavoro con l'argilla non è solo tecnica, ma una ricerca poetica costante.</p>
+                <p>Ogni scultura è un pezzo unico, plasmato nel silenzio dello studio, dove la materia grezza incontra il pensiero per diventare presenza tangibile nello spazio.</p>
+                <p><i>"L'argilla mi insegna l'attesa e il rispetto per i tempi della natura."</i></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="container">
+        <div class="gallery-header">
+            <p class="serif" style="color: var(--clay-brown); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 10px;">Selezione</p>
+            <h2>Le Opere</h2>
+        </div>
+        <div class="gallery-grid grid">
+            <!-- 10 placeholders for artworks -->
+            <div class="gallery-item">
+                <img src="foto2.jpg" alt="Scultura 1">
+                <div class="overlay">Opera I - Dettagli su richiesta</div>
+            </div>
+            <div class="gallery-item">
+                <img src="foto3.jpg" alt="Scultura 2">
+                <div class="overlay">Opera II - Dettagli su richiesta</div>
+            </div>
+            <div class="gallery-item">
+                <img src="foto4.jpg" alt="Scultura 3">
+                <div class="overlay">Opera III - Dettagli su richiesta</div>
+            </div>
+            <div class="gallery-item">
+                <img src="foto5.jpg" alt="Scultura 4">
+                <div class="overlay">Opera IV</div>
+            </div>
+            <div class="gallery-item">
+                <img src="foto6.jpg" alt="Scultura 5">
+                <div class="overlay">Opera V</div>
+            </div>
+            <div class="gallery-item">
+                <img src="foto7.jpg" alt="Scultura 6">
+                <div class="overlay">Opera VI</div>
+            </div>
+            <div class="gallery-item">
+                <img src="foto8.jpg" alt="Scultura 7">
+                <div class="overlay">Opera VII</div>
+            </div>
+            <div class="gallery-item">
+                <img src="foto9.jpg" alt="Scultura 8">
+                <div class="overlay">Opera VIII</div>
+            </div>
+            <div class="gallery-item">
+                <img src="foto10.jpg" alt="Scultura 9">
+                <div class="overlay">Opera IX</div>
+            </div>
+            <div class="gallery-item">
+                <img src="foto11.jpg" alt="Scultura 10">
+                <div class="overlay">Opera X</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Method -->
+    <section id="method">
+        <div class="container method-content">
+            <p class="serif" style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 10px;">Filosofia</p>
+            <h2>Il Metodo: Rispetto e Materia</h2>
+            <p>Il mio processo creativo inizia con l'ascolto dell'argilla. Non forzo mai la materia, cerco invece di guidarla verso una forma che sembra già esistere al suo interno.</p>
+            <p>Dalla modellazione a mano libera alla cottura, ogni fase richiede pazienza. Utilizzo terre naturali e pigmenti ossidati per mantenere un legame primordiale con l'elemento terra.</p>
+        </div>
+    </section>
+
+    <!-- Commissions -->
+    <section id="commissions" class="container">
+        <div class="commissions-content">
+            <div>
+                <p class="serif" style="color: var(--clay-brown); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 10px;">Progetti</p>
+                <h2 class="serif" style="font-size: 3rem; margin-bottom: 30px;">Commissioni</h2>
+                <p style="margin-bottom: 20px;">Hai in mente un'opera unica per un ambiente specifico o un'occasione speciale? Collaboro con architetti, collezionisti e privati per creare sculture su misura.</p>
+                <p>Descrivi brevemente la tua idea e sarò felice di parlarne con te.</p>
+            </div>
+            <div>
+                <form id="contact-form" onsubmit="handleForm(event)">
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <input type="text" required placeholder="Il tuo nome">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" required placeholder="la-tua@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Messaggio</label>
+                        <textarea rows="5" required placeholder="Come posso aiutarti?"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Invia richiesta</button>
+                    <div id="form-message">Grazie. Il tuo messaggio è stato inviato correttamente. Ti risponderò al più presto.</div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h2 class="footer-logo serif">VALENTINA SCATTOLIN</h2>
+                    <p style="opacity: 0.7; max-width: 300px;">Scultrice in argilla. Creazioni uniche ispirate alla terra e alle sue forme primordiali.</p>
+                </div>
+                <div>
+                    <h3 class="serif" style="font-size: 1.5rem; margin-bottom: 20px;">Contatti</h3>
+                    <a href="mailto:artes.valentina@yahoo.it" class="footer-link">artes.valentina@yahoo.it</a>
+                    <p style="font-size: 0.9rem; opacity: 0.7;">Treviso, Italia</p>
+                </div>
+                <div>
+                    <h3 class="serif" style="font-size: 1.5rem; margin-bottom: 20px;">Segui</h3>
+                    <a href="https://instagram.com/scattolinvalentina" target="_blank" class="footer-link">Instagram</a>
+                    <a href="https://valentinascattolin.com" target="_blank" class="footer-link">Sito Web Ufficiale</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Valentina Scattolin — All rights reserved</p>
+                <p>Designed for Contemporary Art Spaces</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Reveal sections on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Form Handling
+        function handleForm(e) {
+            e.preventDefault();
+            const form = e.target;
+            const message = document.getElementById('form-message');
+            
+            // Simula invio
+            form.querySelector('button').innerText = 'Inviando...';
+            
+            setTimeout(() => {
+                form.style.display = 'none';
+                message.style.display = 'block';
+            }, 1500);
+        }
+
+        // Cookie Banner
+        function closeCookie() {
+            const banner = document.getElementById('cookie-banner');
+            banner.style.display = 'none';
+            localStorage.setItem('cookiesAccepted', 'true');
+        }
+
+        window.onload = () => {
+            if (localStorage.getItem('cookiesAccepted') === 'true') {
+                document.getElementById('cookie-banner').style.display = 'none';
+            }
+        };
+
+        // Header Background on Scroll
+        window.onscroll = function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.backgroundColor = 'rgba(250, 247, 242, 0.95)';
+                nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.03)';
+            } else {
+                nav.style.backgroundColor = 'transparent';
+                nav.style.boxShadow = 'none';
+            }
+        };
+    </script>
+</body>
+</html>
